@@ -1,32 +1,59 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <headerMode v-if="$route.path !== '/login'" :headerBgcolor="headerBgcolor"></headerMode>
+
+    <transition :name="transitionName">
+      <!-- <keep-alive :include="['indexView', 'LoginView']"> -->
+      <router-view :class="{ filter: isVisibility }" :key="$route.fullPath" />
+      <!-- </keep-alive> -->
+    </transition>
+
+    <transition :name="$store.state.transitionName">
+      <loading></loading>
+    </transition>
   </div>
 </template>
+<script>
+import headerMode from "@/components/header/headerMode.vue";
+import loading from "./components/loading/loading-router.vue";
+export default {
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+  components: { loading, headerMode },
+  data() {
+    return {
+      transitionName: "",
+      isVisibility: false,
+      headerBgcolor: ""
     }
-  }
-}
-</style>
+  },
+  mounted() {
+    this.$bus.$on("mask", this.openmask)
+    this.$bus.$on("judgeHeaderColor", this.judgeHeaderColor)
+    window.addEventListener("scroll", this.judgeHeaderColor)
+  },
+  methods: {
+    openmask(val) {
+      this.isVisibility = val
+    },
+    judgeHeaderColor() {
+      // console.log(123);
+      if (this.$route.path === "/index") {
+        if (window.scrollY > 65) {
+          console.log(111);
+          this.headerBgcolor = "#d0eadf"
+        } else {
+          console.log(222);
+
+          this.headerBgcolor = "transparent"
+        }
+      } else if (this.$route.path === "/activities") {
+        this.headerBgcolor = "#ffefcb"
+      } else {
+        this.headerBgcolor = "transparent"
+      }
+    }
+  },
+
+};
+</script>
+<style lang="scss"></style>
