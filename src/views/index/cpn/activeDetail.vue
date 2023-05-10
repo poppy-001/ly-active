@@ -33,8 +33,8 @@
         <button v-if="!isCollect" class="collectBtn" type="warning" size="small"
           @click="collectActi(activeInfo._id)">收藏</button>
         <button v-else class="collectBtn ok" type="success" size="small" @click="collectActi(activeInfo._id)">已收藏</button>
-        <i v-if="username === activeInfo.activity_publisher_username" class="iconfont icon-shanchu"
-          @click="delActiveAction(activeInfo._id)">
+        <i v-if="username === activeInfo.activity_publisher_username || username === 'admin'"
+          class="iconfont icon-shanchu" @click="delActiveAction(activeInfo._id)">
         </i>
       </div>
     </div>

@@ -33,8 +33,8 @@
             <i v-if="username === activeInfo.activity_publisher_username && $route.path === '/person/myActive'"
               class="iconfont icon-bianji" @click="updateActiveAction(activeInfo._id)">
             </i>
-            <i v-if="username === activeInfo.activity_publisher_username" class="iconfont icon-shanchu"
-              @click="delActiveAction(activeInfo._id)">
+            <i v-if="username === activeInfo.activity_publisher_username || username === 'admin'"
+              class="iconfont icon-shanchu" @click="delActiveAction(activeInfo._id)">
             </i>
             <el-button v-if="!isCollect" class="collectBtn" type="warning" size="small"
               @click="collectActi(activeInfo._id)">收藏</el-button>
@@ -79,6 +79,7 @@ export default {
       immediate: true,
       async handler() {
         if (this.isVisib) {
+
           if (localStorage.getItem("TOKEN")) {
             await getUserInfo().then((res) => {
               if (res.status === 200) {
@@ -87,12 +88,13 @@ export default {
             }, (err) => {
               this.$message.error(err)
             })
-            this.activeAddress = this.activeInfo.activity_address.join("-")
-            if (this.activeInfo.collect_userList.indexOf(this.username) !== -1) {
-              this.isCollect = true
-            } else {
-              this.isCollect = false
-            }
+          }
+
+          this.activeAddress = this.activeInfo.activity_address.join("-")
+          if (this.activeInfo.collect_userList.indexOf(this.username) !== -1) {
+            this.isCollect = true
+          } else {
+            this.isCollect = false
           }
 
           if (this.activeInfo.signUp.indexOf(":") !== -1) {
