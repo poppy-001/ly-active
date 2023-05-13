@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="container" ref="loginBg" :class="{ filter: isMsgVisibility }">
+
+      <div class="road"><img src="@/assets/img/login/bg.png" alt=""></div>
+      <div class="xmut" ref="xmut">
+        <img src="/assets/img/login/x-1.png" class="x" ref="x">
+        <img src="/assets/img/login/m-1.png" class="m" ref="m">
+        <img src="/assets/img/login/u-1.png" class="u" ref="u">
+        <img src="/assets/img/login/t-1.png" class="t" ref="t">
+      </div>
       <div class="logo"></div>
       <div class="loginMode">
 
@@ -92,10 +100,33 @@ export default {
       code: "",
       newPassword: "",
       comfNewPassword: "",
-      nextFlag: false
+      nextFlag: false,
     };
   },
   mounted() {
+    setTimeout(() => {
+      this.$refs.x.src = "/assets/img/login/x.png";
+      // this.$refs.x.classList.add("color-transition")
+    }, 2500);
+    setTimeout(() => {
+      this.$refs.u.src = "/assets/img/login/u.png";
+      // this.$refs.u.classList.add("color-transition")
+
+    }, 3500);
+    setTimeout(() => {
+      this.$refs.m.src = "/assets/img/login/m.png";
+      // this.$refs.m.classList.add("color-transition")
+
+    }, 3000);
+    setTimeout(() => {
+      this.$refs.t.src = "/assets/img/login/t.png";
+      // this.$refs.t.classList.add("color-transition")
+
+    }, 4000);
+
+    setTimeout(() => {
+      this.$refs.xmut.classList.add("xmut-ani")
+    }, 5500);
     window.addEventListener("keydown", (e) => {
       if (this.$route.path == "/login") {
         if (e.key === "Enter") {
@@ -270,7 +301,135 @@ export default {
   background: url(@/assets/img/login/login-bg-final.jpg) no-repeat;
 
   background-size: 100% 100%;
+
+  .color-transition {
+    position: absolute;
+    animation: color-transition 1s ease-out;
+  }
+
+  @keyframes color-transition {
+    10% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+
+  }
+
+  .xmut {
+    transition: all .4s;
+
+  }
+
+  .xmut-ani {
+    animation: xmut 1s;
+    // animation-iteration-count: infinite;
+    // animation-direction: alternate;
+  }
+
+  @keyframes xmut {
+    // 0% {
+    //   opacity: 1;
+    //   transform: translateY(0);
+    // }
+
+
+    // 100% {
+    //   opacity: 0;
+    //   transform: translateY(-30px);
+    // }
+
+    from,
+    0%,
+    53%,
+    80%,
+    to {
+      animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+      transform: translate3d(0, 0, 0);
+    }
+
+    40%,
+    33% {
+      animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+      transform: translate3d(0, -30px, 0);
+    }
+
+    70% {
+      animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+      transform: translate3d(0, -15px, 0);
+    }
+
+    90% {
+      transform: translate3d(0, -4px, 0);
+    }
+
+  }
+
+  .x {
+    position: absolute;
+    left: 18.5412vw;
+    top: 5.2396vw;
+    width: 20.052vw;
+  }
+
+  .m {
+    position: absolute;
+    left: 35.5729vw;
+    top: 11.0208vw;
+    width: 16.7708vw;
+
+  }
+
+  .u {
+    position: absolute;
+    top: 20.2016vw;
+    left: 21.5896vw;
+    width: 13.25vw;
+  }
+
+  .t {
+    position: absolute;
+    top: 27.9104vw;
+    left: 34.0104vw;
+    width: 18.8021vw;
+  }
+
+  .road {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    animation: wrapper-gradient 4s 1.5s linear;
+  }
+
+  .road>img {
+    height: 100vh;
+    width: 80vw;
+    animation: img-gradient 4s 1.5s linear;
+  }
 }
+
+@keyframes wrapper-gradient {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes img-gradient {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
 
 .logo {
   height: 5.2vw;

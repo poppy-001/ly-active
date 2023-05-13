@@ -212,11 +212,14 @@ body {
     width: 75%;
     // height: 16vw;
     box-shadow: 3px 2.5px 2px 1px rgba(77, 67, 69, 0.31);
-    background: url(@/assets/img/actives/活动图片.png) no-repeat center bottom;
+    background: url(@/assets/img/actives/bg.gif) no-repeat center bottom;
     background-size: 80%;
     background-color: #fef6e4;
     border-radius: 10px;
+
   }
+
+
 
   .swiper {
     box-sizing: border-box;

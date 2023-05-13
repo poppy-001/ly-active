@@ -116,6 +116,8 @@ export default {
     width: 100%;
     height: calc(100% - 7vw);
     overflow-y: auto;
+    padding-top: 10px;
+
 
 
     ul {
@@ -136,7 +138,12 @@ export default {
       box-shadow: 0 2px 10px rgba($color: #000000, $alpha: 0.1);
       border-radius: 10px;
       cursor: pointer;
+      transition: all .4s;
 
+
+      &:hover {
+        transform: translateY(-5px);
+      }
 
       .item-left img {
         max-width: 5vw;

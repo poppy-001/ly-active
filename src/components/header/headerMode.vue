@@ -15,7 +15,7 @@
           <li :class="{ 'nav-active': currentPath == '/activities' }"><router-link to="/activities">活动列表</router-link>
           </li>
           <li :class="{ 'nav-active': currentPath == '/person' }">
-            <el-dropdown @command="gogogo">
+            <el-dropdown @command="gogogo" :hide-on-click="false" ref="dropdown">
               <span class="el-dropdown-link">
                 <img v-if="user_pic" :src="user_pic" alt="" class="user_pic">
                 <img v-else src="@/assets/img/person/person.png" alt="" class="user_pic">
@@ -24,6 +24,11 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="a">个人中心</el-dropdown-item>
                 <el-dropdown-item command="b">修改密码</el-dropdown-item>
+                <el-dropdown-item command="c">夜间模式
+                  <el-switch v-model="darkMode" active-color="#13ce66" inactive-color="gray">
+                  </el-switch>
+
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </li>
@@ -77,7 +82,7 @@
               <el-col :span="12">
                 <el-form-item label="活动范围" prop="activity_type">
                   <el-select v-model="createActiveForm.activity_type" placeholder="更好地推荐给感兴趣的同学">
-                    <el-option v-for="(type, index) in typeOptions" :key="index" :label="type.label"
+                    <el-option v-for="( type, index ) in  typeOptions " :key="index" :label="type.label"
                       :value="type.value"></el-option>
                   </el-select>
                 </el-form-item>
@@ -85,7 +90,7 @@
               <el-col :span="12">
                 <el-form-item label="活动类型" prop="feature">
                   <el-select v-model="createActiveForm.feature" placeholder="更好地推荐给感兴趣的同学">
-                    <el-option v-for="feature in featureOptions" :key="feature.value" :label="feature.label"
+                    <el-option v-for=" feature  in  featureOptions " :key="feature.value" :label="feature.label"
                       :value="feature.value"></el-option>
                   </el-select>
                 </el-form-item>
@@ -341,7 +346,9 @@ export default {
       },
       imageUrl: '',
       flag: false,//样式
-      file: ""
+      file: "",
+
+      darkMode: false,
     }
   },
   mounted() {
@@ -395,6 +402,16 @@ export default {
         })
       },
       immediate: true // 如果要在初始化时也触发回调，需要添加 immediate: true
+    },
+    darkMode() {
+      if (this.darkMode) {
+        this.$refs.header.classList.add("dark")
+
+        this.$bus.$emit("changebg", '/assets/img/index/dark-bg.jpg')
+      } else {
+        this.$refs.header.classList.remove("dark")
+        this.$bus.$emit("changebg", '/assets/img/index/index-bg.jpg')
+      }
     }
   },
   methods: {
@@ -418,9 +435,15 @@ export default {
     },
     gogogo(com) {
       if (com == "a") {
+        this.$refs.dropdown.hide();
+
         this.$router.push("/person")
       } else if (com == "b") {
+        this.$refs.dropdown.hide();
+
         this.openMsgBox()
+      } else if (com == 'c') {
+        return
       }
     },
     loginOut() {
@@ -522,9 +545,12 @@ export default {
     openMsgBox() {
       this.isMsgVisibility = true
       console.log(this.isMsgVisibility);
+      this.$bus.$emit("mask", true)
     },
     closeMMsgBox() {
       this.isMsgVisibility = false;
+      this.$bus.$emit("mask", false)
+
     },
     async next() {
       if (this.active == 0) {
@@ -628,6 +654,7 @@ export default {
       width: 2.6vw;
       height: 2.6vw;
       margin: 0 20px;
+
     }
 
     p {
@@ -809,6 +836,22 @@ export default {
   position: absolute;
   bottom: 3vw;
   right: 7vw;
+}
+
+.dark {
+  background-color: #121161 !important;
+
+  .header-title,
+  .header-logo p,
+  .header-nav li a,
+  .header-nav .el-dropdown,
+  .header-nav .el-dropdown-item {
+    color: #fff;
+  }
+
+  .createActive {
+    background-color: #2a9152 !important;
+  }
 }
 </style>
 <style lang="scss">

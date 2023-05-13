@@ -6,17 +6,17 @@
     <div class="bottom">
       <div class="option person" ref="option" @click="gotoPage($event, 'person')">
         <div class="mask"></div>
-        <div class="option-pic"><img src="" alt=""></div>
+        <div class="option-pic"><img src="@/assets/img/person/person.png" ref='img1' alt=""></div>
         <div class="option-title">个人信息</div>
       </div>
       <div class="option collectList" ref="option" @click="gotoPage($event, 'collectList')">
         <div class="mask"></div>
-        <div class="option-pic"><img src="" alt=""></div>
+        <div class="option-pic"><img src="@/assets/img/person/collect.png" ref='img2' alt=""></div>
         <div class="option-title">活动收藏</div>
       </div>
       <div class="option myActive" ref="option" @click="gotoPage($event, 'myActive')">
         <div class="mask"></div>
-        <div class="option-pic"><img src="" alt=""></div>
+        <div class="option-pic"><img ref='img3' src="@/assets/img/person/myActive.png" alt=""></div>
         <div class="option-title">我的发布</div>
       </div>
     </div>
@@ -41,11 +41,21 @@ export default {
         this.$router.push("/login");
       }, 500);
     }
+    // let req = /^\/person/
+    if (this.$store.state.changePage) {
+      this.$refs.img1.classList.add("ani1")
+      this.$refs.img2.classList.add("ani2")
+      this.$refs.img3.classList.add("ani3")
+    } else {
+      this.$refs.img1.classList.remove("ani1")
+      this.$refs.img2.classList.remove("ani2")
+      this.$refs.img3.classList.remove("ani3")
+    }
   },
   watch: {
     isVisibility() {
       console.log(this.isVisibility);
-    },
+    }
   },
   methods: {
     clickTab(e) {
@@ -80,8 +90,8 @@ export default {
         let y = this.downFixed(b / a, 2) * 100
         console.log("y", y);
 
-        console.log("personTop", personTop, "personBottom", personBottom);
-        console.log("maskHeight", maskHeight);
+        // console.log("personTop", personTop, "personBottom", personBottom);
+        // console.log("maskHeight", maskHeight);
         person.style.opacity = 1
         person.style.transform = `scale(5,${cnt})`
         // person.style.transform="scale(5,3.42)"
@@ -158,7 +168,7 @@ export default {
     width: 100%;
     height: 16vw;
     box-shadow: 2px 2px 2px 1px rgba(77, 67, 69, 0.31);
-    background: url(@/assets/img/person/活动图片.png) no-repeat center bottom;
+    background: url(@/assets/img/person/bg.gif) no-repeat center bottom;
     background-size: 59%;
     background-color: #fef6e4;
     border-radius: 10px;
@@ -199,27 +209,88 @@ export default {
     }
 
     &-pic {
+      position: relative;
       height: calc(100% - 5vw);
       border-radius: 2vw 2vw 0 0;
+      transition: all .5s;
+    }
+
+    @keyframes big {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
     }
 
     &:nth-child(1) .option-pic {
-      background: url(@/assets/img/person/person.png) no-repeat center center;
-      background-size: 55%;
+      // background: url(@/assets/img/person/person.png) no-repeat center center;
+      // background-size: 55%;
       background-color: #79d8ea;
+
+      img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 55%;
+        transform: translate(-50%, -50%);
+      }
+
+
+
+    }
+
+    .ani1 {
+      opacity: 0;
+      animation: big 1s 1.5s forwards;
 
     }
 
     &:nth-child(2) .option-pic {
-      background: url(@/assets/img/person/collect.png) no-repeat center center;
-      background-size: 80%;
+      // background: url(@/assets/img/person/collect.png) no-repeat center center;
+      // background-size: 80%;
       background-color: #fddc73;
+
+      img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        animation: big 1s 2.2s forwards;
+      }
+
+    }
+
+    .ani2 {
+      opacity: 0;
+      animation: big 1s 2.2s forwards;
+
     }
 
     &:nth-child(3) .option-pic {
-      background: url(@/assets/img/person/myActive.png) no-repeat center center;
-      background-size: 45%;
+      // background: url(@/assets/img/person/myActive.png) no-repeat center center;
+      // background-size: 45%;
       background-color: #0bdac6;
+
+      img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 45%;
+        animation: big 1s 2.9s forwards;
+      }
+
+    }
+
+    .ani3 {
+      opacity: 0;
+      animation: big 1s 2.9s forwards;
     }
 
     .mask {

@@ -5,8 +5,8 @@
         <div class="swiper-slide " v-for="(active, index) in  myActiveList " :key="active._id">
           <div class="info">
             <div class="top-img">
-              <img v-if="(index + 1) % 4 === 1" src="@/assets/img/person/myactive/资源20@2x.png" alt="">
-              <img v-if="(index + 1) % 4 === 2" src="@/assets/img/person/myactive/资源2@2x.png" alt="">
+              <img v-if="(index + 1) % 4 === 1" src="@/assets/img/person/myactive/动图4.gif" alt="">
+              <img v-if="(index + 1) % 4 === 2" src="@/assets/img/person/myactive/动图3.gif" alt="">
               <img v-if="(index + 1) % 4 === 3" src="@/assets/img/person/myactive/资源45@2x.png" alt="">
               <img v-if="(index + 1) % 4 === 0" src="@/assets/img/person/myactive/资源47@2x.png" alt="">
             </div>

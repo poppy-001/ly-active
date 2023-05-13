@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <div class="contianer" @mousemove="hoverBuild">
+    <div class="contianer" @mousemove="hoverBuild" ref="contianer">
       <el-tooltip class="item" effect="dark" content="校外、东区、线上活动" placement="top">
         <div class="build other" @click="showBuildActive('校外、东区、线上活动')"></div>
       </el-tooltip>
@@ -16,7 +16,7 @@
       <el-tooltip class="item" effect="dark" content="校外、东区、线上活动" placement="top-end">
         <div class="build other other5" @click="showBuildActive('校外、东区、线上活动')"></div>
       </el-tooltip>
-      <img class="bg" src="@/assets/img/index/index-bg.jpg">
+      <img class="bg" src="@/assets/img/index/index-bg.jpg" ref="bg">
       <el-tooltip class="item" effect="dark" content="图书馆" placement="top">
         <img class="build tushuguan" src="@/assets/img/index/图片2/图书馆.png" @click="showBuildActive('图书馆')" />
       </el-tooltip>
@@ -68,6 +68,19 @@
       <el-tooltip class="item" effect="dark" content="逸夫楼" placement="top">
         <img class="build yiful" src="@/assets/img/index/图片2/逸夫楼.png" @click="showBuildActive('逸夫楼')" />
       </el-tooltip>
+
+      <div class="animation animation1">
+        <img class="car1" src="@/assets/img/index/起始.png" />
+      </div>
+
+      <div class="animation animation2">
+        <img class="car2" src="@/assets/img/index/终点.png" />
+      </div>
+
+      <div class="animation animation3">
+        <img class="car3" src="@/assets/img/index/car3.png" />
+      </div>
+
     </div>
     <el-drawer :visible.sync="drawer" close-on-press-escape size="40%" custom-class="active-list" :title="clickBuild"
       @close="close">
@@ -115,6 +128,7 @@ export default {
     this.$bus.$on("opendetail", this.opendetail);
     this.$bus.$on("updateData", this.getActiveList)
     this.$bus.$on("closeinner", this.closeInner)
+    this.$bus.$on("changebg", this.changebg)
     this.getActiveList()
     await getUserInfo().then((res) => {
       if (res.status === 200) {
@@ -123,6 +137,8 @@ export default {
     }, (err) => {
       this.$message.error(err)
     })
+    this.lazyLoad()
+    window.addEventListener("scroll", this.lazyLoad)
   },
   computed: {
     ...mapState(["activeList"]),
@@ -137,6 +153,32 @@ export default {
     }
   },
   methods: {
+    changebg(imgsrc) {
+      this.$refs.bg.src = imgsrc
+      let builds = document.querySelectorAll(".build")
+      if (imgsrc.indexOf("dark") !== -1) {
+        for (let i = 0; i < builds.length; i++) {
+          builds[i].style.opacity = "0"
+        }
+      } else {
+        for (let i = 0; i < builds.length; i++) {
+          builds[i].style.opacity = "1"
+        }
+      }
+    },
+    lazyLoad() {
+      const images = document.querySelectorAll('.animation');
+
+      const windowHeight = window.innerHeight;
+
+      images.forEach((image, index) => {
+        const imagePosition = image.getBoundingClientRect().top;
+        if (imagePosition - windowHeight <= 0) {
+          let str = `animation-car${index + 1}`
+          image.classList.add(str)
+        }
+      });
+    },
     async getActiveList() {
       await getActiveListApi().then((res) => {
         if (res.status === 200) {
@@ -188,7 +230,6 @@ export default {
       this.activeInfo = active
     },
     closeInner() {
-      console.log(1231231213123123131);
       this.innerDrawer = false
     }
   }
@@ -391,6 +432,7 @@ export default {
 
 }
 
+
 .list {
   width: 100%;
   height: calc(100% - 7vw);
@@ -404,6 +446,126 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+
+.animation1 {
+  position: absolute;
+  left: 41.4062vw;
+  top: 67.2396vw;
+  width: 3.75vw;
+  height: 3.75vw;
+
+  &.animation-car1 {
+    animation: cargo1 3s forwards infinite linear;
+  }
+}
+
+.car1 {
+  width: 100%;
+  height: 100%;
+  transition: all 1s;
+  transform: rotate(-30deg);
+}
+
+@keyframes cargo1 {
+  0% {
+    opacity: 0;
+    transform: rotate(30deg) translate(0px);
+  }
+
+  20% {
+    opacity: .9;
+  }
+
+
+  80% {
+    opacity: .9;
+  }
+
+  100% {
+    opacity: 0.1;
+    transform: rotate(30deg) translate(170px);
+  }
+}
+
+
+.animation2 {
+  position: absolute;
+  left: 71vw;
+  top: 39.0625vw;
+  width: 4.0105vw;
+  height: 3.8542vw;
+
+  &.animation-car2 {
+    animation: cargo2 4s forwards infinite linear;
+  }
+}
+
+.car2 {
+  width: 100%;
+  height: 100%;
+  transition: all 1s;
+  transform: rotate(30deg);
+}
+
+@keyframes cargo2 {
+  0% {
+    opacity: 0;
+    transform: rotate(-30deg) translate(0px);
+  }
+
+  20% {
+    opacity: .9;
+  }
+
+  80% {
+    opacity: .9;
+  }
+
+  100% {
+    opacity: 0.1;
+    transform: rotate(-30deg) translate(-300px);
+  }
+}
+
+.animation3 {
+  position: absolute;
+  left: 52vw;
+  top: 82vw;
+  width: 4.0105vw;
+  height: 3.8542vw;
+
+  &.animation-car3 {
+    animation: cargo3 4s forwards infinite linear;
+  }
+}
+
+.car3 {
+  width: 100%;
+  height: 100%;
+  transition: all 1s;
+  transform: rotate(30deg);
+}
+
+@keyframes cargo3 {
+  0% {
+    opacity: 0;
+    transform: rotate(-30deg) translate(0px);
+  }
+
+  20% {
+    opacity: .9;
+  }
+
+  80% {
+    opacity: .9;
+  }
+
+  100% {
+    opacity: 0.1;
+    transform: rotate(-30deg) translate(-270px);
+  }
 }
 </style>
 <style lang="scss">
